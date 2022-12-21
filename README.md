@@ -1,46 +1,23 @@
-# Getting Started with Create React App
+# Fetch Stories Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a simple React project that fetches HackerNews top 30 stories and renders them.
 
-## Available Scripts
+There is a significant amount of background data fetching required due to the the structure of the API
 
-In the project directory, you can run:
+## Architecture
 
-### `npm start`
+![Project Architecture](src/assets/architecture.png?raw=true "Project Architecture")
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The image above shows the high level project architecture. Main components are highlighted below.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Overview
+Project is about efficiently fetching large amounts of data in the background, procesing and then rendering this data.
 
-### `npm test`
+### Components/Services
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Data Manager: The Data Manager encapsulates 3 other services. It is responsible for orchestrating the fetching of data in a way that does not degrade the performance of the app. The Data manager comprises of:
+    - Background worker service: This service manages a task queue and a number of worker instances responsible for running the jobs added to the queue
+    - Data Cache: Responsible for caching data based on the data id so that we don't make API calls twice to resolve an id
+    - Item Resolver Service: The resolver contains the actual logic responsible for fetching and returning stories either from the cache or by making an api call
+- React State: State is managed via a reducer. Two dispatch methods are exported from this module. One to add Stories and the other to add comments to the stories.
+- Context API: The Context API is where it all comes together. The StoriesProvider brings together the DataManager and the React state and links it all together while exposing just the list of stories to it's children. The Provider represents the public API as it's encapsulates all the other work that's going on in the background
