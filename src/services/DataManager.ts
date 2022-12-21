@@ -1,4 +1,4 @@
-import { addItem } from "./BackgroundWorkerService"
+import { addItem, startWorkers } from "./BackgroundWorkerService"
 import { resolveComments } from "./CommentService"
 import { getItem } from "./ItemResolverService"
 import { getTopStories } from "./StoriesService"
@@ -15,6 +15,7 @@ export const registerAddNewCommentHandler = (handler: (storyId: any, comment: an
 }
 
 export const init = async () => {
+  startWorkers()
   const stories = await getTopStories()
   stories?.forEach(storyId =>  {
     const resolver = async () => {

@@ -24,6 +24,8 @@ async function worker() {
   setTimeout(inlineWorker);
 }
 
-worker();
-worker();
-worker();
+export const startWorkers = () => {
+  worker();
+  worker();
+  worker();
+}

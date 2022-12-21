@@ -8,12 +8,11 @@ export const CommentList = ({comments}: {comments: Commenter[]}) => {
        No comments
       </div> 
       : 
-      comments.map(comment => <>
-        <div key={comment.name} className="comment">
+      comments.map(comment => <div key={comment.name} className="comment">
           <p>Name: {comment.name}</p>
           <span>Total Comments: {comment.totalComments}</span>
         </div>
-      </>)
+      )
     }
   </div>
 }
