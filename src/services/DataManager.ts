@@ -21,7 +21,7 @@ export const init = async () => {
       const item = await getItem(storyId as number)
       if(item) {
         const comments = item.kids;
-        addNewStory({id: item.id, title: item.title, commenters: []})
+        addNewStory({id: item.id, title: item.title, url: item.url, commenters: []})
         if(comments && Array.isArray(comments)){
           resolveComments(storyId, comments)
           .then(comments => {

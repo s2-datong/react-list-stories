@@ -25,4 +25,6 @@ export const resolveComments = async (storyId: number, commentIds: number[]) => 
     name: key,
     totalComments: comments[key]?.length
   }))
+  .sort((a, b) => b.totalComments - a.totalComments)
+  .slice(0, 10)
 }
